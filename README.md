@@ -124,6 +124,7 @@ returned if the validation fails.
 ##### plugin(plugin, options = {})
 Decorator for the class to use plugins. Just pass in the plugin function and options. Can stack multiple plugins. 
 Plugins are added right before the schema is returned so they will be the last things added to the stack.
+
     @plugin(autopopulate)
     @plugin(findorcreate)
     class Document {
