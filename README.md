@@ -42,7 +42,8 @@ following methods available:
 
 ##### extend(modelInstance)
 You can call extend and pass in another instance of model extended from babelmodel in order to combine all methods,
-Schema paths, pre/post middleware, static functions and validators into the calling instance. 
+Schema paths, pre/post middleware, static functions and validators into the calling instance.
+ 
     class Post extends Model {
         @pre('save')
         static generateSlug(next) {
