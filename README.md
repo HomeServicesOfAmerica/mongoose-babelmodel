@@ -121,5 +121,12 @@ Decorator that wraps the function, creating a new function that allows it to be 
 during model.generateSchema(). path accepts a string referencing the path to validate, message is the error message
 returned if the validation fails.
 
-
+##### plugin(plugin, options = {})
+Decorator for the class to use plugins. Just pass in the plugin function and options. Can stack multiple plugins. 
+Plugins are added right before the schema is returned so they will be the last things added to the stack.
+    @plugin(autopopulate)
+    @plugin(findorcreate)
+    class Document {
+        // Your class definition
+    }
     
