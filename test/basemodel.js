@@ -58,7 +58,7 @@ var model, example;
 describe('Model', () => {
 
   before(() => {
-    model = new Example();
+    model = new Example({test: Boolean});
   });
 
   describe('Schema functionality', () => {
@@ -75,7 +75,8 @@ describe('Model', () => {
       model.schema.should.have.property('remove');
     });
 
-    it('Should set the schema in the model', () => {
+    it('Should allow you to set the schema in the model', () => {
+      model.schema.list().should.have.property('test');
       let schema = {
         name: String,
         value: {type: String, default: 'blank'}

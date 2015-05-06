@@ -113,6 +113,10 @@ export function post(action) {
 export class Model {
   _schema = {};
 
+  constructor(schema = {}) {
+    this._schema = schema;
+  }
+
   /**
    * Getter Function for the schema, which allows adding and removing Schema items.
    * @returns {Object}
