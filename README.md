@@ -77,9 +77,11 @@ Schema paths, pre/post middleware, static functions and validators into the call
         }
     }
     
+    // String 'ObjectId' as schema type will get replaced with Schema.Types.ObjectId
     let post = new Post({
         title: {type: String, required: true},
-        content: {type: String, required: true}
+        content: {type: String, required: true},
+        author: {type: 'ObjectId', ref: 'User'}
     });
     
     let tag = new Tag({
