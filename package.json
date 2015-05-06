@@ -1,0 +1,20 @@
+{
+  "name": "mongoose-babelmodel",
+  "version": "0.0.1",
+  "description": "ES7 Model base for MongooseJS Models",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --require test/babel"
+  },
+  "author": "Concierge Auctions <brad.decker@conciergeauctions.com>",
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "^3.8.0",
+    "mongoose": "^4.0.2"
+  },
+  "devDependencies": {
+    "babel": "^5.2.15",
+    "mocha": "^2.2.4",
+    "should": "^6.0.1"
+  }
+}
