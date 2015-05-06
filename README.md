@@ -100,15 +100,15 @@ Specially annotated functions (@validation, @pre, @post) get added using appropr
 ##### model.generateModel()
 returns mongoose.model() call, with your Model's name as the name and the generated schema
 
-#### Method Decorators
-All of the following decorators are also exported by the module. They must be declared on static methods. 
-
 ##### model.schema
 Getter/setter functions.
 schema.add(schema, overwrite = false) allows you to add schema paths to a model instance before generateModel() is called
 schema.remove(schema) - as you would expect, removes schema paths that are found in the schema parameter
 schema.list() - returns the schema object
 schema = {} - sets the schema object overwriting anything previously set.
+
+#### Method Decorators
+All of the following decorators are also exported by the module. They must be declared on static methods. 
 
 ##### pre/post(action)
 Decorators that wrap the decorated function, creating a new function that allows it to be automatically added to the 
