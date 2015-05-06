@@ -110,6 +110,21 @@ export function post(action) {
   }
 }
 
+/**
+ * @Wrapper function for classes to add plugins
+ * creates a plugins array to the class that is used in schema generation
+ * returns a object containing necessary keys to register a plugin on the schema
+ * @param {Function} plugin - The plugin function
+ * @param {Object} options - The plugin options
+ * @returns {Function}
+ */
+export function plugin(plugin, options = {}) {
+  return target => {
+    target.plugins = target.plugins || [];
+    target.plugins.push({fn: plugin, options});
+  }
+}
+
 export class Model {
   _schema = {};
 
@@ -243,6 +258,12 @@ export class Model {
       }
       if (typeof method.get == 'function') schema.virtual(name).get(method.get);
       if (typeof method.set == 'function') schema.virtual(name).set(method.set);
+    }
+
+    if (this.constructor.hasOwnProperty('plugins')) {
+      for (let plugin of this.constructor.plugins) {
+        schema.plugin(plugin.fn, plugin.options);
+      }
     }
 
     return schema;

@@ -1,7 +1,12 @@
 import should from 'should';
-import {Model, validation, pre, post} from './../index';
+import {Model, validation, pre, post, plugin} from './../index';
 import mongoose from 'mongoose';
 
+function pluginExample(schema) {
+  schema.add({pluginActivated: {type: Boolean, default: true}});
+}
+
+@plugin(pluginExample)
 class Example extends Model {
   test() {
     return 3;
@@ -97,7 +102,7 @@ describe('Model', () => {
 
   });
 
-  describe('Plugins', () => {
+  describe('Extending Models', () => {
 
     it('Should have an extend method', () => {
       model.should.have.property('extend');
@@ -116,6 +121,14 @@ describe('Model', () => {
       model.constructor.prototype.should.have.property('value');
       model.constructor.prototype.value = 3;
       model.constructor.prototype.value.should.equal(3);
+    });
+
+  });
+
+  describe('Plugins', () => {
+
+    it('Should have a plugins object', () => {
+      model.constructor.should.have.property('plugins');
     });
 
   });
