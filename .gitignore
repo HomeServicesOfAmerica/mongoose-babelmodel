@@ -28,3 +28,6 @@ node_modules
 
 # Webstorm .idea
 .idea
+
+# Ignore our lib folder
+lib

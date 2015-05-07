@@ -1,10 +1,13 @@
 {
   "name": "mongoose-babelmodel",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "ES7 Model base for MongooseJS Models",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --require test/babel"
+    "test": "mocha --require test/babel",
+    "build": "babel --stage 0 src -d lib -b regenerator",
+    "prepublish": "npm run build",
+    "pretest": "npm run build"
   },
   "author": "Concierge Auctions <brad.decker@conciergeauctions.com>",
   "license": "MIT",
