@@ -1,6 +1,6 @@
 {
   "name": "mongoose-babelmodel",
-  "version": "0.0.3",
+  "version": "0.0.6",
   "description": "ES7 Model base for MongooseJS Models",
   "main": "index.js",
   "scripts": {
@@ -15,13 +15,11 @@
     "type" : "git",
     "url" : "https://github.com/ConciergeAuctions/mongoose-babelmodel"
   },
-  "dependencies": {
-    "lodash": "^3.8.0",
-    "mongoose": "^4.0.2"
-  },
   "devDependencies": {
     "babel": "^5.2.15",
     "mocha": "^2.2.4",
-    "should": "^6.0.1"
+    "should": "^6.0.1",
+    "lodash": "^3.8.0",
+    "mongoose": "^4.0.2"
   }
 }

@@ -64,7 +64,9 @@ export default class Model {
     // Pull out the various types of functions from self and extension in order to merge functions
     let {extPrototype, prototype, extStatic} = getClassParts(this, extension);
     let prototypeKeys = getFunctionNames(prototype, extPrototype);
-    let staticKeys = getFunctionNames(this, extStatic);
+    let staticKeys = getFunctionNames(this.constructor, extStatic);
+
+    console.log(staticKeys);
 
     // Add all methods to the prototype
     for (let name of prototypeKeys) {
@@ -85,7 +87,7 @@ export default class Model {
 
     // Add all statics to the class itself.
     for (let name of staticKeys) {
-      let method = getMethod(name, this, extStatic);
+      let method = getMethod(name, this.constructor, extStatic);
       if (typeof method.value == 'function') {
         this[name] = method.value;
       }

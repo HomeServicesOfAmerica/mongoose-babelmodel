@@ -15,6 +15,12 @@ class Example extends Model {
   testthree() {
     return 208;
   }
+
+  @pre('save')
+  static addDeckerToName(next) {
+    this.name += ' Decker';
+    next();
+  }
 }
 
 class Extension extends Model {
@@ -30,12 +36,6 @@ class Extension extends Model {
   @validation('name', 'Your name is bad')
   static namesCantBeBad(name) {
     return !name.startsWith('Brad');
-  }
-
-  @pre('save')
-  static addDeckerToName(next) {
-    this.name += ' Decker';
-    next();
   }
 
   @post('save')
