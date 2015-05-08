@@ -112,7 +112,14 @@ schema = {} - sets the schema object overwriting anything previously set.
 #### Method Decorators
 All of the following decorators are also exported by the module. They must be declared on static methods. 
 
-##### pre/post(action)
+##### pre(action, priority = 10)
+Decorators that wrap the decorated function, creating a new function that allows it to be automatically added to the 
+schema during model.generateSchema(). action accepts any hook action defined in the mongoose documentation. Priority
+allows you to control the order in which hooks are executed. the lowest priority hook is executed last, highest first.
+Defaults to 10. Hooks added through extensions will honor this order as well so if you add a hook in a extension with
+a very high priority it will happen first as long as there isn't a hook with a higher priority on the base model.
+
+##### post(action)
 Decorators that wrap the decorated function, creating a new function that allows it to be automatically added to the 
 schema during model.generateSchema(). action accepts any hook action defined in the mongoose documentation
 

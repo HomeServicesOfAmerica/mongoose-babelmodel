@@ -21,12 +21,13 @@ export function validation(path, message) {
  * Mutated function named pre_{original function name}
  * returns a object containing necessary keys to register a pre hook
  * @param {String} action - The action to hook into
+ * @param {Integer} priority - integer value representing priority in callQueue. Higher values => first, lower => last
  * @returns {Function}
  */
-export function pre(action) {
+export function pre(action, priority = 10) {
   return (target, key, descriptor) => {
     let fn = descriptor.value;
-    key = `pre_${key}`;
+    key = `pre_${priority}_${key}`;
     target[key] = () => {return {fn, action}};
     delete descriptor.value;
     delete descriptor.writeable;
@@ -40,7 +41,7 @@ export function pre(action) {
  * @param {String} action - The action to hook into
  * @returns {Function}
  */
-export function post(action) {
+export function post(action, priority = 10) {
   return (target, key, descriptor) => {
     let fn = descriptor.value;
     key = `post_${key}`;

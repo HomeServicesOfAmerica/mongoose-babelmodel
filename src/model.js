@@ -66,8 +66,6 @@ export default class Model {
     let prototypeKeys = getFunctionNames(prototype, extPrototype);
     let staticKeys = getFunctionNames(this.constructor, extStatic);
 
-    console.log(staticKeys);
-
     // Add all methods to the prototype
     for (let name of prototypeKeys) {
       let method = getMethod(name, prototype, extPrototype);
@@ -143,7 +141,6 @@ export default class Model {
         schema.plugin(plugin.fn, plugin.options);
       }
     }
-
     return schema;
   }
 

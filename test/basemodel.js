@@ -16,9 +16,15 @@ class Example extends Model {
     return 208;
   }
 
-  @pre('save')
+  @pre('save', 0)
   static addDeckerToName(next) {
-    this.name += ' Decker';
+    this.name += 'Decker';
+    next();
+  }
+
+  @pre('save', 10)
+  static addSpaceToName(next) {
+    this.name += ' ';
     next();
   }
 }
@@ -63,7 +69,7 @@ var model, example;
 describe('Model', () => {
 
   before(() => {
-    model = new Example({test: Boolean});
+    model = new Example({test: Boolean, name: String});
   });
 
   describe('Schema functionality', () => {

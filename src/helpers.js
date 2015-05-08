@@ -1,6 +1,16 @@
 import {Schema} from 'mongoose';
 import _ from 'lodash';
 
+function rankIterator(name) {
+  let order = {
+    validator: 0,
+    pre: 1,
+    post: 2
+  };
+  let pieces = name.split('_');
+  return order[pieces[0]];
+}
+
 /**
  * Shortcut to getOwnPropertyDescriptor for two possible objects
  * @param {string} name - The name of the Descriptor to search for
@@ -34,7 +44,32 @@ export function getClassParts(primary, extension) {
  * @returns {Array}
  */
 export function getFunctionNames(dest, source) {
-  return _.union(Object.getOwnPropertyNames(dest), Object.getOwnPropertyNames(source));
+  let names = _.union(Object.getOwnPropertyNames(source), Object.getOwnPropertyNames(dest));
+  let avoid = [];
+
+
+  let specials = _.filter(names, n => /pre_|post_|validator_/.test(n));
+  specials = _.sortByOrder(specials, [rankIterator, n => {
+    let priority = 10;
+    let pieces = n.split('_');
+    pieces.shift();
+
+    if (pieces.length > 1 && !isNaN(pieces[0])) {
+      priority = Number(pieces.shift());
+    }
+
+    let fnName = pieces.join('_');
+
+    avoid.push(fnName);
+
+    return priority;
+  }], [true, false]);
+
+  names = _.filter(names, n => {
+    return specials.indexOf(n) === -1 && avoid.indexOf(n) === -1;
+  });
+
+  return _.union(names, specials);
 }
 
 /**
