@@ -1,4 +1,4 @@
-import {fixObjectIds, getFunctionNames, getMethod, getClassParts} from './helpers';
+import {fixObjectIds, getFunctionNames, getMethod, getClassParts, getFunctionNamesOrdered} from './helpers';
 import mongoose from 'mongoose';
 
 export default class Model {
@@ -99,8 +99,8 @@ export default class Model {
     let schema = new mongoose.Schema(this._schema);
     let proto = this.constructor.prototype;
     let self = this;
-    let staticProps = Object.getOwnPropertyNames(self);
-    let prototypeProps = Object.getOwnPropertyNames(proto);
+    let staticProps = getFunctionNamesOrdered(self);
+    let prototypeProps = getFunctionNamesOrdered(proto);
     let instanceProps = prototypeProps.filter(name => name !== 'constructor');
 
     for (let name of staticProps) {

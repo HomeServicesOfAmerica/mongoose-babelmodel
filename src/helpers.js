@@ -44,7 +44,11 @@ export function getClassParts(primary, extension) {
  * @returns {Array}
  */
 export function getFunctionNames(dest, source) {
-  let names = _.union(Object.getOwnPropertyNames(source), Object.getOwnPropertyNames(dest));
+  return _.union(Object.getOwnPropertyNames(source), Object.getOwnPropertyNames(dest));
+}
+
+export function getFunctionNamesOrdered(object) {
+  let names = Object.getOwnPropertyNames(object);
   let avoid = [];
 
 
