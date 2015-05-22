@@ -1,13 +1,13 @@
-import {Schema} from 'mongoose';
+import { Schema } from 'mongoose';
 import _ from 'lodash';
 
-function rankIterator(name) {
+function rankIterator ( name ) {
   let order = {
     validator: 0,
     pre: 1,
     post: 2
   };
-  let pieces = name.split('_');
+  let pieces = name.split( '_' );
   return order[pieces[0]];
 }
 
@@ -18,8 +18,8 @@ function rankIterator(name) {
  * @param {object} source - Source Object
  * @returns {Object|null}
  */
-export function getMethod(name, dest, source) {
-  return Object.getOwnPropertyDescriptor(dest, name) || Object.getOwnPropertyDescriptor(source, name);
+export function getMethod ( name, dest, source ) {
+  return Object.getOwnPropertyDescriptor( dest, name ) || Object.getOwnPropertyDescriptor( source, name );
 }
 
 /**
@@ -29,12 +29,12 @@ export function getMethod(name, dest, source) {
  * @param {Object} extension - The object whose properties are being subsumed.
  * @returns {{prototype: (Object), extPrototype: (Object|Function), extStatic: (Object|Function)}}
  */
-export function getClassParts(primary, extension) {
+export function getClassParts ( primary, extension ) {
   return {
     prototype: primary.__proto__,
     extPrototype: extension.constructor.prototype,
     extStatic: extension.constructor
-  }
+  };
 }
 
 /**
@@ -43,50 +43,50 @@ export function getClassParts(primary, extension) {
  * @param {object} source - Source Object
  * @returns {Array}
  */
-export function getFunctionNames(dest, source) {
-  return _.union(Object.getOwnPropertyNames(source), Object.getOwnPropertyNames(dest));
+export function getFunctionNames ( dest, source ) {
+  return _.union( Object.getOwnPropertyNames( source ), Object.getOwnPropertyNames( dest ) );
 }
 
-export function getFunctionNamesOrdered(object) {
-  let names = Object.getOwnPropertyNames(object);
+export function getFunctionNamesOrdered ( object ) {
+  let names = Object.getOwnPropertyNames( object );
   let avoid = [];
 
 
-  let specials = _.filter(names, n => /pre_|post_|validator_/.test(n));
-  specials = _.sortByOrder(specials, [rankIterator, n => {
+  let specials = _.filter( names, n => /pre_|post_|validator_/.test( n ) );
+  specials = _.sortByOrder( specials, [ rankIterator, n => {
     let priority = 10;
-    let pieces = n.split('_');
+    let pieces = n.split( '_' );
     pieces.shift();
 
-    if (pieces.length > 1 && !isNaN(pieces[0])) {
-      priority = Number(pieces.shift());
+    if ( pieces.length > 1 && !isNaN( pieces[0] ) ) {
+      priority = Number( pieces.shift() );
     }
 
-    let fnName = pieces.join('_');
+    let fnName = pieces.join( '_' );
 
-    avoid.push(fnName);
+    avoid.push( fnName );
 
     return priority;
-  }], [true, false]);
+  }], [ true, false ] );
 
-  names = _.filter(names, n => {
-    return specials.indexOf(n) === -1 && avoid.indexOf(n) === -1;
-  });
+  names = _.filter( names, n => {
+    return specials.indexOf( n ) === -1 && avoid.indexOf( n ) === -1;
+  } );
 
-  return _.union(names, specials);
+  return _.union( names, specials );
 }
 
 /**
  * Helper method that replaced the string "ObjectId" in schemas with the mongoose.Schema.Types.ObjectId object
  * @param {Object} schema - The schema object
  */
-export function fixObjectIds(schema) {
-  let keys = Object.keys(schema);
+export function fixObjectIds ( schema ) {
+  let keys = Object.keys( schema );
 
-  for (let key of keys) {
-    if(_.isString(schema[key]) && schema[key].toLowerCase() == 'objectid') {
+  for ( let key of keys ) {
+    if ( _.isString( schema[key] ) && schema[key].toLowerCase() === 'objectid' ) {
       schema[key] = Schema.Types.ObjectId;
-    } else if (_.isString(schema[key].type) && schema[key].type.toLowerCase() == 'objectid') {
+    } else if ( _.isString( schema[key].type ) && schema[key].type.toLowerCase() === 'objectid' ) {
       schema[key].type = Schema.Types.ObjectId;
     }
   }

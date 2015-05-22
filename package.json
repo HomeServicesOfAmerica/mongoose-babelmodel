@@ -1,6 +1,6 @@
 {
   "name": "mongoose-babelmodel",
-  "version": "0.0.11",
+  "version": "0.1.0",
   "description": "ES7 Model base for MongooseJS Models",
   "main": "index.js",
   "scripts": {

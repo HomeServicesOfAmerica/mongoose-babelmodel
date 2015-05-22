@@ -1,6 +1,9 @@
-module.exports.Model = require('./lib/Model');
-var decorators = require('./lib/decorators');
-module.exports.pre = decorators.pre;
-module.exports.post = decorators.post;
-module.exports.plugin = decorators.plugin;
-module.exports.validation = decorators.validation;
+var decorators = require( './lib/decorators' );
+
+module.exports = {
+  Model: require( './lib/Model' ),
+  pre: decorators.pre,
+  post: decorators.post,
+  plugin: decorators.plugin,
+  validation: decorators.validation
+};
