@@ -11,6 +11,12 @@ BabelJs for compiling to ES5 using --stage 0 flag for decorators
     import {Model, pre} from 'mongoose-babelmodel'
     
     class User extends Model {
+        name = String;
+        password = String;
+        email = String;
+        roles = {type: Array, default: ['Subscriber']};
+        _posts: Array;
+        
         // added to schema using .method()
         verifyPassword(password) {
             let encrypted = yourEncryptionFunc(password);
@@ -44,15 +50,70 @@ BabelJs for compiling to ES5 using --stage 0 flag for decorators
         }
     }
     
-    let user = new User({
-        name: "String",
-        password: "String",
-        email: "String",
-        roles: {type: Array, default: ['subscriber']},
-        _posts: {type: Array}
-    });
+    let user = new User();
     
     export default user.generateModel();
+    
+### Declaring Schema
+
+You can declare your schema as class properties ( ES7 stage 0 candidate ) in the following fashion:
+
+    class Example extends Model {
+        _schema = {
+            name: String,
+            type; String
+        };
+        
+        // OR 
+        
+        name = String;
+        type = String;
+    }
+    
+You can also declare your _schema in the constructor. 
+
+    class Example extends Model {
+        constructor () {
+            super();
+            this._schema = { name: String, type: String };
+        }
+    }
+    
+Or you can rely on the super constructor to pass in your schema upon initialization
+
+    class Example extends Model {
+        instanceMethod () {
+            return this.name;
+        }
+    }
+    
+    let example = new Example({name: String, type: String});
+
+You can add schema paths easily
+
+    example.newPath = {type: Boolean, default: true};
+    
+You can remove schema paths easily
+
+    delete example.newPath;
+    
+How it works:
+the _schema property is what is used during model generation. however all instance items are added to the _schema 
+object during generateSchema(). Please note that _schema is the base. If you declare a path in _schema and then add
+the same path to the instance object it will overwrite. Like so:
+
+    class Example extends Model {
+        _schema = {
+            name: String,
+            type; String
+        };
+    }
+    
+    let example = new Example();
+    
+    // During generateSchema _schema.type will be set to {type: String, default: 'Test'}
+    example.type = {type: String, default: 'Test'};
+
     
 ### API Documentation
 #### Model
