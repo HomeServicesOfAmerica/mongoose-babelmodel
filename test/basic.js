@@ -1,8 +1,7 @@
 import should from 'should';
-import babelModel from './../index';
+import { Model } from './../';
 import mongoose from 'mongoose';
 
-let { Model } = babelModel;
 
 /**
  * This is a simple test class to test some of the most basic features of the module

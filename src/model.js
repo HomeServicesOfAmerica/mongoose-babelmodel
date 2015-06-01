@@ -12,6 +12,7 @@ export default class Model {
 
   constructor ( schema = {} ) {
     this._schema = schema;
+    this.options = this.options || {};
   }
 
   /**
@@ -136,7 +137,7 @@ export default class Model {
    */
   generateSchema () {
     this.buildSchemaObject();
-    let schema = new mongoose.Schema( this._schema );
+    let schema = new mongoose.Schema( this.options, this._schema );
     let proto = this.constructor.prototype;
     let self = this.constructor;
     let staticProps = getFunctionNamesOrdered( self );
