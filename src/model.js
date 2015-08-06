@@ -122,14 +122,29 @@ export default class Model {
         this.constructor[name] = method.value;
       }
     }
+
+
+    if ( extension.constructor.hasOwnProperty( 'plugins' ) ) {
+      if ( !this.constructor.hasOwnProperty( 'plugins' ) ) {
+        this.constructor.plugins = extension.constructor.plugins;
+      } else {
+        for ( let plugin of extension.constructor.plugins ) {
+          // noinspection Eslint
+          if ( this.constructor.plugins.find( element => element.fn.name === plugin.fn.name ) === undefined ) {
+            this.constructor.plugins.push( plugin );
+          }
+        }
+      }
+    }
   }
 
   buildSchemaObject () {
-    let paths = _.filter( Object.getOwnPropertyNames( this ), name => name !== '_schema' );
+    let paths = _.filter( Object.getOwnPropertyNames( this ), name => name !== '_schema' && name !== 'options' );
     this._schema = this._schema || {};
     paths.forEach( path => {
       this._schema[path] = this[path];
     } );
+    fixObjectIds( this._schema );
   }
 
   /**
@@ -137,7 +152,7 @@ export default class Model {
    */
   generateSchema () {
     this.buildSchemaObject();
-    let schema = new mongoose.Schema( this.options, this._schema );
+    let schema = new mongoose.Schema( this._schema, this.options );
     let proto = this.constructor.prototype;
     let self = this.constructor;
     let staticProps = getFunctionNamesOrdered( self );
@@ -212,5 +227,17 @@ export default class Model {
     return mongoose.model( this.constructor.name, this.generateSchema() );
   }
 
+  static generateSchema () {
+    let model = new this();
+    return model.generateSchema();
+  }
+
+  static generateModel ( ...extensions ) {
+    let model = new this();
+    for ( let extension of extensions ) {
+      model.extend( extension );
+    }
+    return model.generateModel();
+  }
 
 }
