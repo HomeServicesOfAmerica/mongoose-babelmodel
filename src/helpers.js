@@ -88,6 +88,10 @@ export function fixObjectIds ( schema ) {
       schema[key] = Schema.Types.ObjectId;
     } else if ( _.isString( schema[key].type ) && schema[key].type.toLowerCase() === 'objectid' ) {
       schema[key].type = Schema.Types.ObjectId;
+    } else if ( _.isArray( schema[key] ) ) {
+      for ( let subSchema of schema[key] ) {
+        fixObjectIds( subSchema );
+      }
     }
   }
 }
