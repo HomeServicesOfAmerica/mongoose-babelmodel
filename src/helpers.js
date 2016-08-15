@@ -53,7 +53,7 @@ export function getFunctionNamesOrdered ( object ) {
 
 
   let specials = _.filter( names, n => /pre_|post_|validator_/.test( n ) );
-  specials = _.sortByOrder( specials, [ rankIterator, n => {
+  specials = _.orderBy( specials, [ rankIterator, n => {
     let priority = 10;
     let pieces = n.split( '_' );
     pieces.shift();
