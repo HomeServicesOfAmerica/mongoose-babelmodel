@@ -105,7 +105,7 @@ the same path to the instance object it will overwrite. Like so:
     class Example extends Model {
         _schema = {
             name: String,
-            type; String
+            type: String
         };
     }
     
