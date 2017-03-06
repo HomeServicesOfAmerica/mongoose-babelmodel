@@ -1,4 +1,6 @@
 # mongoose-babelmodel
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/ConciergeAuctions/mongoose-babelmodel.svg)](https://greenkeeper.io/)
 A library for using babeljs to create mongoose models from classes
 
 ### Installation
